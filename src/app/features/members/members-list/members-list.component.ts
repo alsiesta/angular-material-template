@@ -26,28 +26,28 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-customer-list',
-  templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.css']
+  selector: 'app-members-list',
+  templateUrl: './members-list.component.html',
+  styleUrls: ['./members-list.component.css']
 })
-  
-export class CustomerListComponent implements OnInit {
+
+export class MembersListComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   @ViewChild(MatSort, { static: true })
   sort: MatSort = new MatSort;
 
-  constructor(
+  constructor (
     private logger: NGXLogger,
     private notificationService: NotificationService,
     private titleService: Title
   ) { }
 
-  ngOnInit() {
-    this.titleService.setTitle('angular-material-template - Customers');
-    this.logger.log('Customers loaded');
-    this.notificationService.openSnackBar('Customers loaded');
+  ngOnInit () {
+    this.titleService.setTitle('AI Expert Community - Members');
+    this.logger.log('Members loaded');
+    this.notificationService.openSnackBar('Members loaded');
     this.dataSource.sort = this.sort;
 
   }

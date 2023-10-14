@@ -43,6 +43,7 @@ const appRoutes: Routes = [
     loadChildren: () => import('./features/about/about.module').then(m => m.AboutModule),
     canActivate: [AuthGuard]
   },
+  { path: 'members', loadChildren: () => import('./features/members/members.module').then(m => m.MembersModule) },
   {
     path: '**',
     redirectTo: 'dashboard',
