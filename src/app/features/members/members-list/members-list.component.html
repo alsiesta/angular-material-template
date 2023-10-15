@@ -1,35 +1,43 @@
 <div class="container" fxLayout="row" fxLayoutAlign="center none">
-    <div fxFlex="95%">
-  
-      <mat-card>
+  <div fxFlex="95%">
+
+    <mat-card>
         <mat-card-content>
-          <h2>Members</h2>
-  
+          <h2 (click)="createNewMember ()">Members</h2>
+
           <table mat-table [dataSource]="dataSource" matSort>
   
-            <!-- Position Column -->
-            <ng-container matColumnDef="position">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-              <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+
+            <ng-container matColumnDef="displayname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Display Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.displayName}} </td>
             </ng-container>
           
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+
+            <ng-container matColumnDef="fullname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Full Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.firstName + ' ' + element.lastName}}</td>
             </ng-container>
           
-            <!-- Weight Column -->
-            <ng-container matColumnDef="weight">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Weight </th>
-              <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+
+            <ng-container matColumnDef="expertise">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Expertise </th>
+              <td mat-cell *matCellDef="let element"> {{element.expertise}} </td>
             </ng-container>
           
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="symbol">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </th>
-              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+
+            <ng-container matColumnDef="certificates">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Certificates </th>
+              <td mat-cell *matCellDef="let element"> {{element.certificates}} </td>
             </ng-container>
+
+  
+            <ng-container matColumnDef="website">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Website </th>
+              <td mat-cell *matCellDef="let element"> {{element.website}} </td>
+            </ng-container>
+
+         
           
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -37,6 +45,6 @@
           
         </mat-card-content>
       </mat-card>
-  
-    </div>
+
   </div>
+</div>
