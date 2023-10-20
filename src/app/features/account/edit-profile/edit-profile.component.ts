@@ -1,9 +1,11 @@
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
+import { CosmosdbService } from 'src/app/core/services/cosmosdb.service';
+import { log } from 'console';
 
 
 @Component({
@@ -13,63 +15,67 @@ import { SpinnerService } from 'src/app/core/services/spinner.service';
 })
 export class EditProfileComponent implements OnInit {
 
-  form!: UntypedFormGroup;
-  hideCurrentPassword: boolean;
-  hideNewPassword: boolean;
-  currentPassword!: string;
-  newPassword!: string;
-  newPasswordConfirm!: string;
+  form!: FormGroup;
+  firstName!: string;
+  lastName!: string;
+  displayName!: string;
+  expertise!: string;
+  certificates!: string;
+  website!: string;
   disableSubmit!: boolean;
 
   constructor(private authService: AuthenticationService,
     private logger: NGXLogger,
     private spinnerService: SpinnerService,
-    private notificationService: NotificationService) {
-
-    this.hideCurrentPassword = true;
-    this.hideNewPassword = true;
+    private notificationService: NotificationService,
+    private cosmosdbService: CosmosdbService) {
   }
 
   ngOnInit() {
-    this.form = new UntypedFormGroup({
-      currentPassword: new UntypedFormControl('', Validators.required),
-      newPassword: new UntypedFormControl('', Validators.required),
-      newPasswordConfirm: new UntypedFormControl('', Validators.required),
+    this.form = new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      displayName: new FormControl('', Validators.required),
+      expertise: new FormControl('',),
+      certificates: new FormControl('',),
+      website: new FormControl('',),
     });
 
-    this.form.get('currentPassword')?.valueChanges
-      .subscribe(val => { this.currentPassword = val; });
+    this.form.get('firstName')?.valueChanges
+      .subscribe(val => { this.firstName = val; });
 
-    this.form.get('newPassword')?.valueChanges
-      .subscribe(val => { this.newPassword = val; });
+    this.form.get('lastName')?.valueChanges
+      .subscribe(val => { this.lastName = val; });
 
-    this.form.get('newPasswordConfirm')?.valueChanges
-      .subscribe(val => { this.newPasswordConfirm = val; });
+    this.form.get('displayName')?.valueChanges
+      .subscribe(val => { this.displayName = val; });
+    
+    this.form.get('expertise')?.valueChanges
+      .subscribe(val => { this.expertise = val; });
+    
+    this.form.get('certificates')?.valueChanges
+      .subscribe(val => { this.certificates = val; });
+    
+    this.form.get('website')?.valueChanges
+      .subscribe(val => { this.website = val; });
 
     this.spinnerService.visibility.subscribe((value) => {
       this.disableSubmit = value;
     });
   }
 
-  changePassword() {
-
-    if (this.newPassword !== this.newPasswordConfirm) {
-      this.notificationService.openSnackBar('New passwords do not match.');
-      return;
+  saveProfile () {
+    const { firstName, lastName, displayName, expertise, certificates, website }= this.form.value;
+    const itemBody = {
+      firstName, lastName, displayName, expertise, certificates, website,
+      id: 'f2067706-d6ff-41af-b09c-b88d5499ca34',
     }
-
-    const email = this.authService.getCurrentUser().email;
-
-    this.authService.changePassword(email, this.currentPassword, this.newPassword)
-      .subscribe(
-        data => {
-          this.logger.info(`User ${email} changed password.`);
-          this.form.reset();
-          this.notificationService.openSnackBar('Your password has been changed.');
-        },
-        error => {
-          this.notificationService.openSnackBar(error.error);
-        }
-      );
+    console.log("updated Member in CosmosDB", itemBody);
+    this.cosmosdbService.replaceMemberItem(itemBody);
+   
   }
+  
 }
+
+// this.cosmosdbService.createMemberItem(this.form.value);
+// console.log("created new Member in CosmosDB",this.form.value);

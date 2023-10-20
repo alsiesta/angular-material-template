@@ -54,7 +54,18 @@ export class CosmosdbService {
     return results;
   }
 
+/**
+ * Replace the item by ID.
+ */
+async replaceMemberItem(itemBody: { value?: any; id: any; children?: any; partitionKey?: any; }) {
+  console.log(`Replacing item:\n${itemBody.id}\n`)
 
+  const { item } = await this.client
+    .database(this.databaseId)
+    .container(this.containerId)
+    .item(itemBody.id)
+    .replace(itemBody)
+}
 
   /**
    * Query the container using SQL

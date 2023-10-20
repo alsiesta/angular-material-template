@@ -1,69 +1,67 @@
 <form [formGroup]="form">
-  <p>Use the form below to update your Profile Details.</p>
 
   <div fxLayout="row">
 
     <div fxFlex="40%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
 
       <mat-form-field class="full-width">
-        <input matInput placeholder="Enter a value" formControlName="currentPassword">
-        <mat-icon matSuffix>
-          home
-        </mat-icon>
+        <input matInput placeholder="First Name" formControlName="firstName">
+        <mat-icon matSuffix></mat-icon>
 
-        <mat-error *ngIf="form.controls['currentPassword'].hasError('required')">
-          Please enter a your current password
+        <mat-error *ngIf="form.controls['firstName'].hasError('required')">
+          Please enter your first name
         </mat-error>
       </mat-form-field>
 
       <mat-form-field class="full-width">
-        <input matInput placeholder="New Password" formControlName="newPassword" [type]="hideNewPassword ? 'password' : 'text'" autocomplete="new-password">
-        <mat-icon matSuffix (click)="hideNewPassword = !hideNewPassword">
-          {{hideNewPassword ? 'visibility' : 'visibility_off'}}
-        </mat-icon>
+        <input matInput placeholder="Last Name" formControlName="lastName">
+        <mat-icon matSuffix></mat-icon>
 
-        <mat-error *ngIf="form.controls['newPassword'].hasError('required')">
-          Please enter a new password
+        <mat-error *ngIf="form.controls['lastName'].hasError('required')">
+          Please enter your last name
         </mat-error>
       </mat-form-field>
 
       <mat-form-field class="full-width">
-        <input matInput placeholder="Confirm New Password" formControlName="newPasswordConfirm" [type]="hideNewPassword ? 'password' : 'text'"
-          autocomplete="new-password">
-        <mat-icon matSuffix (click)="hideNewPassword = !hideNewPassword">
-          {{hideNewPassword ? 'visibility' : 'visibility_off'}}
-        </mat-icon>
+        <input matInput placeholder="Display Name" formControlName="displayName">
+        <mat-icon matSuffix></mat-icon>
 
-        <mat-error *ngIf="form.controls['newPasswordConfirm'].hasError('required')">
-          Please confirm your new password
+        <mat-error *ngIf="form.controls['displayName'].hasError('required')">
+          Please enter your display name
         </mat-error>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" [disabled]="form.invalid || disableSubmit" (click)="changePassword()">Save</button>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="your expertise" formControlName="expertise">
+        <mat-icon matSuffix></mat-icon>
+
+        <!-- <mat-error *ngIf="form.controls['expertise'].hasError('required')">
+          Enter expertise
+        </mat-error> -->
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="your certificates" formControlName="certificates">
+        <mat-icon matSuffix></mat-icon>
+
+        <!-- <mat-error *ngIf="form.controls['certificates'].hasError('required')">
+          Enter your certificates
+        </mat-error> -->
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Your website" formControlName="website">
+        <mat-icon matSuffix></mat-icon>
+
+        <!-- <mat-error *ngIf="form.controls['website'].hasError('required')">
+          Enter your website
+        </mat-error> -->
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="form.invalid || disableSubmit" (click)="saveProfile()">Save</button>
 
     </div>
-
   </div>
-
+  
 </form>
-
-<!-- <div class="password-rules" fxFlex="65%" fxFlex.sm="90%" fxFlex.xs="95%">
-    Password rules:
-    <mat-list>
-      <mat-list-item>
-        Must be at least 6 characters
-      </mat-list-item>
-
-      <mat-list-item>
-        Must contain at least one non alphanumeric character
-      </mat-list-item>
-
-      <mat-list-item>
-        Must contain at least one lowercase ('a'-'z')
-      </mat-list-item>
-
-      <mat-list-item>
-        Must contain at least one uppercase ('A'-'Z')
-      </mat-list-item>
-    </mat-list>
-  </div> -->
+<p>{{form.value | json}}</p>
